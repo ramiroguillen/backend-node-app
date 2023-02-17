@@ -1,33 +1,27 @@
-const Carts = require("../classes/Container");
+const Carts = require("../apis/carts.api");
 
 const createCart = async (req, res) => {
-    let response;
     try {
-        response = await Carts.create(req.body);
+        res.json(await Carts.create({ products: [] }));
     } catch {
-        response = { message: "ERROR when creating cart" }
+        res.json({ message: "ERROR when creating cart" })
     }
-    return response;
 }
 
 const getCartById = async (req, res) => {
-    let response;
     try {
-        response = await Carts.getById(req.params.cid);
+        res.json(await Carts.getById(req.params.cid));
     } catch {
-        response = { message: "ERROR when obtaining cart by id" }
+        res.json({ message: "ERROR when obtaining cart by id" })
     }
-    return response;
 }
 
 const addProductToCart = async (req, res) => {
-    let response;
     try {
-        response = await Carts.add(req.params.cid, req.params.pid, req.body.amount);
-    } catch {
-        response = { message: "ERROR when adding products to cart" }
+        res.json(await Carts.add(req.params.cid, req.params.pid));
+    } catch (error) {
+        res.json({ message: "ERROR when adding products to cart: " + error })
     }
-    return response;
 }
 
 module.exports = { createCart, getCartById, addProductToCart };

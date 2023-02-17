@@ -2,70 +2,75 @@ const fs = require("fs");
 const path = require("path");
 
 class Container {
-    content;
 
     constructor(fileName) {
         this.pathfile = path.join(process.cwd(), `/src/db/${fileName}.json`);
         try {
-            this.content = fs.readFileSync(this.pathfile, "utf-8");
+            this.content = JSON.parse(fs.readFileSync(this.pathfile, "utf-8"));
         } catch (error) { throw new Error(`readFile: ${error}`) }
     }
 
     getAll() {
-        return this.content;
+        return this.content.items;
     }
 
     getById(id) {
-        let element = this.content.find(e => e.id === parseInt(id))
+        let element = this.content.items.find(e => e.id === parseInt(id))
         return element;
     }
 
     create(element) {
-        element.id = this.content.length > 0 ? this.content.length + 1 : 1;
-        this.content.push(obj);
+        element.id = this.content.items.length > 0 ? this.content.length + 1 : 1;
+        this.content.items.push(element);
         try {
-            fs.writeFileSync(this.pathfile, this.content);
+            fs.writeFileSync(this.pathfile, JSON.stringify(this.content));
         } catch (error) { throw new Error(`create: ${error}`) }
         return element.id;
     }
 
     update(id, update) {
-        let element = this.content.find(e => e.id === parseInt(id));
-        let index = this.content.indexOf(element);
+        let element = this.content.items.find(e => e.id === parseInt(id));
+        let index = this.content.items.indexOf(element);
         for (const key in update) {
-            if (this.content[index][key]) {
-                this.content[index][key] = update[key];
+            if (this.content.items[index][key]) {
+                this.content.items[index][key] = update[key];
             }
         }
         try {
-            fs.writeFileSync(this.pathfile, this.content);
+            fs.writeFileSync(this.pathfile, JSON.stringify(this.content));
         } catch (error) { throw new Error(`update: ${error}`) }
-        return this.content[index];
+        return this.content.items[index];
     }
 
     remove(id) {
-        let content = this.content.filter(e => e.id !== parseInt(id));
-        this.content = content;
+        let items = this.content.items.filter(e => e.id !== parseInt(id));
+        this.content.items = items;
         try {
-            fs.writeFileSync(this.pathfile, this.content);
+            fs.writeFileSync(this.pathfile, JSON.stringify(this.content));
         } catch (error) { throw new Error(`remove: ${error}`) }
         return { message: "item deleted" }
     }
 
     removeAll() {
-        let content = [];
+        let content = { items: [] };
         try {
-            fs.writeFileSync(this.pathfile, content);
+            fs.writeFileSync(this.pathfile, JSON.stringify(content));
         } catch (error) { throw new Error(`removeAll: ${error}`) }
         return this.content;
     }
 
-    add(){
-        
+    add(cid, pid) {
+        let element = this.content.items.find(e => e.id === parseInt(cid));
+        let product = element.products.find(p => p.product === pid);
+        if (product) {
+            product.amount = product.amount + 1;
+        } else {
+            element.products.push({ product: pid, amount: 1 });
+        }
+        try {
+            fs.writeFileSync(this.pathfile, JSON.stringify(this.content));
+        } catch (error) { throw new Error(`add: ${error}`) }
     }
 }
 
-const Products = new Container("products");
-const Carts = new Container("carts");
-
-module.exports = { Products, Carts };
+module.exports = Container;

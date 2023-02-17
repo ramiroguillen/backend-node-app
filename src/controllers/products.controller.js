@@ -1,53 +1,43 @@
-const Products = require("../classes/Container");
+const Products = require("../apis/products.api");
 
 const getProducts = async (req, res) => {
-    let response;
     try {
-        response = await Products.getAll();
+        res.json(await Products.getAll());
     } catch {
-        response = { message: "ERROR when obtaining products" }
+        res.json({ message: "ERROR when obtaining products" })
     }
-    return response;
 }
 
 const getProductById = async (req, res) => {
-    let response;
     try {
-        response = await Products.getById(req.params.pid);
+        res.json(await Products.getById(req.params.pid));
     } catch {
-        response = { message: "ERROR when obtaining product by id" }
+        res.json({ message: "ERROR when obtaining product by id" })
     }
-    return response;
 }
 
 const createProduct = async (req, res) => {
-    let response;
     try {
-        response = await Products.create(req.body);
-    } catch {
-        response = { message: "ERROR when creating product" }
+        res.json(await Products.create(req.body));
+    } catch (error) {
+        res.json({ message: "ERROR when creating product: " + error })
     }
-    return response;
 }
 
 const updateProduct = async (req, res) => {
-    let response;
     try {
-        response = await Products.update(req.params.pid, req.body);
+        res.json(await Products.update(req.params.pid, req.body));
     } catch {
-        response = { message: "ERROR when updating product" }
+        res.json({ message: "ERROR when updating product" })
     }
-    return response;
 }
 
 const deleteProduct = async (req, res) => {
-    let response;
     try {
-        response = await Products.remove(req.params.pid);
+        res.json(await Products.remove(req.params.pid));
     } catch {
-        response = { message: "ERROR when deleting product" }
+        res.json({ message: "ERROR when deleting product" })
     }
-    return response;
 }
 
 module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct };
