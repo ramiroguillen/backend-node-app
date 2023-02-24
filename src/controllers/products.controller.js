@@ -1,8 +1,9 @@
 const Products = require("../apis/products.api");
 
 const getProducts = async (req, res) => {
+    const { limit } = req.query;
     try {
-        res.json(await Products.getAll());
+        res.json(await Products.getAll().slice(0, limit));
     } catch {
         res.json({ message: "ERROR when obtaining products" })
     }
@@ -20,7 +21,7 @@ const createProduct = async (req, res) => {
     try {
         res.json(await Products.create(req.body));
     } catch (error) {
-        res.json({ message: "ERROR when creating product: " + error })
+        res.json({ message: "ERROR when creating product" })
     }
 }
 

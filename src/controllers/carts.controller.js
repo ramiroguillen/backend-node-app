@@ -20,7 +20,7 @@ const addProductToCart = async (req, res) => {
     try {
         res.json(await Carts.add(req.params.cid, req.params.pid));
     } catch (error) {
-        res.json({ message: "ERROR when adding products to cart: " + error })
+        res.json({ message: "ERROR when adding products to cart" })
     }
 }
 
