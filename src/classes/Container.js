@@ -20,7 +20,7 @@ class Container {
     }
 
     create(element) {
-        element.id = this.content.items.length > 0 ? this.content.length + 1 : 1;
+        element.id = this.content.items.length > 0 ? this.content.items.length + 1 : 1;
         this.content.items.push(element);
         try {
             fs.writeFileSync(this.pathfile, JSON.stringify(this.content));

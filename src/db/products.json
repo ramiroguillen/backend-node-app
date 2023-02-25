@@ -1,1 +1,1 @@
-{"items":[{"title":"test","description":"this is a test","code":"1","price":1,"status":true,"stock":1,"category":"test","id":1}]}
+{"items":[{"title":"test 1","description":"this is a test","code":"1","price":1,"status":true,"stock":1,"category":"test","id":1},{"title":"test 2","description":"this is a test","code":"2","price":1,"status":true,"stock":1,"category":"test","id":2}]}

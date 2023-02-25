@@ -1,0 +1,25 @@
+<div class="w-50 d-flex flex-column align-items-center">
+    <h2>Products</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Thumbnail</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if products.length}}
+                {{#each products}}
+                <th scope="row" class="align-middle">{{this.name}}</th>
+                <td class="align-middle">$ {{this.price}}</td>
+                <td>
+                    <img src={{this.thumbnail}} alt={{this.name}} class="rounded mx-auto d-block" style="height:96px;width:96px">
+                </td>
+                {{/each}}
+            {{else}}
+                <th class="align-middle" colspan="3">There are no products</th>
+            {{/if}}
+        </tbody>
+    </table>
+</div>
