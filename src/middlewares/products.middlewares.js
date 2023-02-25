@@ -1,5 +1,6 @@
 const validateProductFields = (req, res, next) => {
     const { title, description, code, price, status, stock, category } = req.body;
+    console.log(req.body)
     if (!title || !description || !code || !price || !status || !stock || !category) {
         res.json({ message: "Required fields missing" })
     } else {
