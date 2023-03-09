@@ -4,7 +4,7 @@ const path = require("path");
 class Container {
 
     constructor(fileName) {
-        this.pathfile = path.join(process.cwd(), `/src/db/${fileName}.json`);
+        this.pathfile = path.join(process.cwd(), `/src/dao/${fileName}.json`);
         try {
             this.content = JSON.parse(fs.readFileSync(this.pathfile, "utf-8"));
         } catch (error) { throw new Error(`readFile: ${error}`) }
@@ -20,7 +20,7 @@ class Container {
     }
 
     create(element) {
-        element.id = this.content.items.length > 0 ? this.content.length + 1 : 1;
+        element.id = this.content.items.length > 0 ? this.content.items.length + 1 : 1;
         this.content.items.push(element);
         try {
             fs.writeFileSync(this.pathfile, JSON.stringify(this.content));
@@ -43,6 +43,7 @@ class Container {
     }
 
     remove(id) {
+        console.log("REMOVE METHOD", id)
         let items = this.content.items.filter(e => e.id !== parseInt(id));
         this.content.items = items;
         try {
